@@ -75,7 +75,7 @@ public class ClientService {
     public void atualizaar(AtualizarClienteDTO dto) {
         try {
             Client cliente = clientRepository.findByNuit(dto.nuit())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Livro não encontrado"));
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado"));
 
             if (!cliente.getNuit().equals(dto.nuit()) || !cliente.getEmail().equals(dto.email())) {
                 if (clientRepository.existsByEmail(dto.email()) || clientRepository.existsByNuit(dto.nuit())) {
@@ -126,8 +126,8 @@ public class ClientService {
         return dtos;
     }
 
-    public ClientResponse listarPorCode(String code){
-        Client client = clientRepository.findByCode(code)
+    public ClientResponse listarPorCode(String nuit){
+        Client client = clientRepository.findByNuit(nuit)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado"));
 
         return new ClientResponse(
