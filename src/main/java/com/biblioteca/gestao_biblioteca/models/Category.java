@@ -1,28 +1,30 @@
 package com.biblioteca.gestao_biblioteca.models;
 
 
-import com.biblioteca.gestao_biblioteca.dtos.CreateGeneroDTO;
+import com.biblioteca.gestao_biblioteca.dtos.request.CreateGeneroDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "Gender")
-@Table(name = "gender")
+@Entity(name = "Category")
+@Table(name = "category")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Genero {
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    private String genero;
+    private String code;
 
-    public Genero(CreateGeneroDTO dto) {
-        this.genero = dto.genero();
+    private String category;
+
+    public Category(CreateGeneroDTO dto) {
+        this.category = dto.category();
     }
 }

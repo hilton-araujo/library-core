@@ -31,7 +31,7 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    private Cliente cliente;
+    private Client cliente;
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reply> replies;

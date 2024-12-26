@@ -20,30 +20,45 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    private String titulo;
+    private String code;
 
-    private String autor;
+    private String title;
 
-    private String description;
+    private String author;
 
-    private int publishYear;
-
-    private double pageCount;
-
-    private double rating;
-
-    private boolean isHighlighted;
+    private String isbn;
 
     private String image;
 
-    private Boolean isFavority;
+    private String publisher;
+
+    private String language;
+
+    private String location;
+
+    private String description;
+
+    private Integer availableQuantity;
+
+    private Integer pageCount;
+
+    private Integer publishYear;
+
+    private Integer rating;
+
+    private Boolean isHighlighted;
+
+    private Boolean isFavorite;
+
+    private Boolean active;
 
     @ManyToOne
-    @JoinColumn(name = "genero_id", nullable = false)
-    private Genero genero;
-
-    private int quantidadeDisponível;
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Loan> loans;
 }

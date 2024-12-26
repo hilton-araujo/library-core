@@ -1,10 +1,10 @@
 package com.biblioteca.gestao_biblioteca.service;
 
-import com.biblioteca.gestao_biblioteca.dtos.CreateLoanDTO;
-import com.biblioteca.gestao_biblioteca.dtos.Response.LoanDTO;
+import com.biblioteca.gestao_biblioteca.dtos.request.CreateLoanDTO;
+import com.biblioteca.gestao_biblioteca.dtos.response.LoanDTO;
 import com.biblioteca.gestao_biblioteca.enums.Status;
 import com.biblioteca.gestao_biblioteca.models.Book;
-import com.biblioteca.gestao_biblioteca.models.Cliente;
+import com.biblioteca.gestao_biblioteca.models.Client;
 import com.biblioteca.gestao_biblioteca.models.Loan;
 import com.biblioteca.gestao_biblioteca.repository.BookRepository;
 import com.biblioteca.gestao_biblioteca.repository.ClientRepository;
@@ -41,7 +41,7 @@ public class LoanService {
             Loan loan;
 
             Book book = validarLivro(dto.bookId());
-            Cliente cliente = validarCliente(dto.userId());
+            Client cliente = validarCliente(dto.userId());
 
             verificarRegrasDeEmprestimo(cliente, book, dto.bookId());
             atualizarQuantidadeLivro(book);
@@ -71,7 +71,7 @@ public class LoanService {
             LoanDTO loanDTO = new LoanDTO(
                     loan.getId(),
                     loan.getUser().getName(),
-                    loan.getBook().getTitulo(),
+                    loan.getBook().getTitle(),
                     loan.getDataEmprestimo(),
                     loan.getDataDevolucao(),
                     loan.getStatus()
@@ -103,13 +103,13 @@ public class LoanService {
                         "Livro com id " + bookId + " não encontrado"));
     }
 
-    private Cliente validarCliente(String userId) {
+    private Client validarCliente(String userId) {
         return clientRepository.findById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Cliente com id " + userId + " não encontrado"));
     }
 
-    private void verificarRegrasDeEmprestimo(Cliente cliente, Book book, String bookId) {
+    private void verificarRegrasDeEmprestimo(Client cliente, Book book, String bookId) {
         if (repository.existsByUserIdAndStatus(cliente.getId(), Status.ATRASADO)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "O cliente possui empréstimos atrasados e não pode realizar novos empréstimos");
@@ -120,14 +120,14 @@ public class LoanService {
                     "O cliente já possui um empréstimo em aberto para este livro");
         }
 
-        if (book.getQuantidadeDisponível() < 1) {
+        if (book.getAvailableQuantity() < 1) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Não há exemplares disponíveis para empréstimo");
         }
     }
 
     private void atualizarQuantidadeLivro(Book book) {
-        book.setQuantidadeDisponível(book.getQuantidadeDisponível() - 1);
+        book.setAvailableQuantity(book.getAvailableQuantity() - 1);
         bookRepository.save(book);
     }
 

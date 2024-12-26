@@ -1,9 +1,9 @@
 package com.biblioteca.gestao_biblioteca.controllers;
 
 
-import com.biblioteca.gestao_biblioteca.dtos.AuthDTO;
-import com.biblioteca.gestao_biblioteca.dtos.AuthResisterDTO;
-import com.biblioteca.gestao_biblioteca.dtos.Response.ResponseApi;
+import com.biblioteca.gestao_biblioteca.dtos.request.AuthDTO;
+import com.biblioteca.gestao_biblioteca.dtos.request.AuthResisterDTO;
+import com.biblioteca.gestao_biblioteca.dtos.response.ResponseApi;
 import com.biblioteca.gestao_biblioteca.infra.TokenService;
 import com.biblioteca.gestao_biblioteca.models.Auth;
 import com.biblioteca.gestao_biblioteca.repository.AuthRepository;

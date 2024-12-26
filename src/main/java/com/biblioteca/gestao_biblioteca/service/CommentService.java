@@ -1,9 +1,9 @@
 package com.biblioteca.gestao_biblioteca.service;
 
-import com.biblioteca.gestao_biblioteca.dtos.CreateCommentDTO;
-import com.biblioteca.gestao_biblioteca.dtos.CreateReplyDTO;
+import com.biblioteca.gestao_biblioteca.dtos.request.CreateCommentDTO;
+import com.biblioteca.gestao_biblioteca.dtos.request.CreateReplyDTO;
 import com.biblioteca.gestao_biblioteca.models.Book;
-import com.biblioteca.gestao_biblioteca.models.Cliente;
+import com.biblioteca.gestao_biblioteca.models.Client;
 import com.biblioteca.gestao_biblioteca.models.Comment;
 import com.biblioteca.gestao_biblioteca.models.Reply;
 import com.biblioteca.gestao_biblioteca.repository.BookRepository;
@@ -47,7 +47,7 @@ public class CommentService {
             Book book = bookRepository.findById(dto.boolId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Livro não encontrado"));
 
-            Cliente cliente = clientRepository.findById(dto.clientId())
+            Client cliente = clientRepository.findById(dto.clientId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario não encontrado"));
 
             comment = new Comment();
@@ -72,7 +72,7 @@ public class CommentService {
             Comment comment = repository.findById(dto.commentId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comentario não encontrado"));
 
-            Cliente cliente = clientRepository.findById(dto.clientId())
+            Client cliente = clientRepository.findById(dto.clientId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario não encontrado"));
 
             reply = new Reply();

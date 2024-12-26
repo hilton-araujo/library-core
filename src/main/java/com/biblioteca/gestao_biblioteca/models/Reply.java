@@ -29,7 +29,7 @@ public class Reply {
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    private Cliente cliente;
+    private Client cliente;
 
 }
 

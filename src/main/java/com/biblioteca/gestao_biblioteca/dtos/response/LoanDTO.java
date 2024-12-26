@@ -1,4 +1,4 @@
-package com.biblioteca.gestao_biblioteca.dtos.Response;
+package com.biblioteca.gestao_biblioteca.dtos.response;
 
 import com.biblioteca.gestao_biblioteca.enums.Status;
 

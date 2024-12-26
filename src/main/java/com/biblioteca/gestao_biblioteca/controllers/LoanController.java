@@ -1,7 +1,7 @@
 package com.biblioteca.gestao_biblioteca.controllers;
 
-import com.biblioteca.gestao_biblioteca.dtos.CreateLoanDTO;
-import com.biblioteca.gestao_biblioteca.dtos.Response.ResponseApi;
+import com.biblioteca.gestao_biblioteca.dtos.request.CreateLoanDTO;
+import com.biblioteca.gestao_biblioteca.dtos.response.ResponseApi;
 import com.biblioteca.gestao_biblioteca.service.LoanService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

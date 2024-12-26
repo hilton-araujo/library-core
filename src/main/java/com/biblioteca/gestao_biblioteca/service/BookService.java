@@ -1,13 +1,12 @@
 package com.biblioteca.gestao_biblioteca.service;
 
-import com.biblioteca.gestao_biblioteca.dtos.AtualizarLivroDTO;
-import com.biblioteca.gestao_biblioteca.dtos.CreateBookDTO;
-import com.biblioteca.gestao_biblioteca.dtos.Response.BookDTO;
-import com.biblioteca.gestao_biblioteca.dtos.Response.BookListDTO;
-import com.biblioteca.gestao_biblioteca.dtos.Response.CommentDTO;
-import com.biblioteca.gestao_biblioteca.dtos.Response.ReplyDTO;
+import com.biblioteca.gestao_biblioteca.dtos.request.BookRequestDTO;
+import com.biblioteca.gestao_biblioteca.dtos.request.BookUpdateDTO;
+import com.biblioteca.gestao_biblioteca.dtos.response.*;
+import com.biblioteca.gestao_biblioteca.functions.GeneratorCode;
+import com.biblioteca.gestao_biblioteca.functions.ISBNGenerator;
 import com.biblioteca.gestao_biblioteca.models.Book;
-import com.biblioteca.gestao_biblioteca.models.Genero;
+import com.biblioteca.gestao_biblioteca.models.Category;
 import com.biblioteca.gestao_biblioteca.repository.BookRepository;
 import com.biblioteca.gestao_biblioteca.repository.GeneroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,29 +30,34 @@ public class BookService {
         return repository.save(book);
     }
 
-    public void registrarBook(CreateBookDTO dto) {
+    public void registrarBook(BookRequestDTO dto) {
         try {
             Book book;
 
-            Genero genero = generoRepository.findById(dto.generoId())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Genero não encontrado"));
+            Category category = generoRepository.findByCode(dto.categoryCode())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não encontrado"));
 
-            boolean existByTittle = repository.existsByTitulo(dto.titulo());
+            boolean existByTittle = repository.existsByTitle(dto.title());
             if (existByTittle) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "Livro com o titulo " + dto.titulo() + " já existe");
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Livro com o titulo " + dto.title() + " já existe");
             }
 
             book = new Book();
-            book.setTitulo(dto.titulo());
-            book.setAutor(dto.autor());
-            book.setGenero(genero);
-            book.setQuantidadeDisponível(dto.quantidadeDisponível());
+            book.setCode(GeneratorCode.generateCode());
+            book.setTitle(dto.title());
+            book.setAuthor(dto.author());
+            book.setIsbn(ISBNGenerator.generateISBN10());
+            book.setPublisher(dto.publisher());
+            book.setLanguage(dto.language());
+            book.setLocation(dto.location());
             book.setDescription(dto.description());
-            book.setPublishYear(dto.publishYear());
+            book.setAvailableQuantity(dto.availableQuantity());
             book.setPageCount(dto.pageCount());
+            book.setPublishYear(dto.publishYear());
             book.setRating(dto.rating());
-            book.setHighlighted(dto.isHighlighted());
+            book.setCategory(category);
             book.setImage(dto.image());
+            book.setActive(true);
 
             create(book);
 
@@ -64,35 +68,39 @@ public class BookService {
         }
     }
 
-    public void atualizarBook(AtualizarLivroDTO dto) {
+    public void atualizarBook(BookUpdateDTO dto) {
         try {
-            Book book = repository.findById(dto.id())
+            Book book = repository.findByCode(dto.code())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Livro não encontrado"));
 
-            Genero genero = generoRepository.findById(dto.generoId())
+            Category category = generoRepository.findByCode(dto.categoryCode())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Genero não encontrado"));
 
 
-            if (!book.getTitulo().equals(dto.titulo())) {
-                boolean existByTittle = repository.existsByTitulo(dto.titulo());
+            if (!book.getTitle().equals(dto.title())) {
+                boolean existByTittle = repository.existsByTitle(dto.title());
                 if (existByTittle) {
-                    throw new ResponseStatusException(HttpStatus.CONFLICT, "Livro com o titulo " + dto.titulo() + " já existe");
+                    throw new ResponseStatusException(HttpStatus.CONFLICT, "Livro com o titulo " + dto.title() + " já existe");
                 }
             }
 
-            book = new Book();
-            book.setId(dto.id());
-            book.setTitulo(dto.titulo());
-            book.setAutor(dto.autor());
-            book.setGenero(genero);
-            book.setQuantidadeDisponível(dto.quantidadeDisponível());
+            book.setCode(dto.code());
+            book.setTitle(dto.title());
+            book.setAuthor(dto.author());
+            book.setIsbn(dto.isbn());
+            book.setPublisher(dto.publisher());
+            book.setLanguage(dto.language());
+            book.setLocation(dto.location());
             book.setDescription(dto.description());
-            book.setPublishYear(dto.publishYear());
+            book.setAvailableQuantity(dto.availableQuantity());
             book.setPageCount(dto.pageCount());
+            book.setPublishYear(dto.publishYear());
             book.setRating(dto.rating());
+            book.setCategory(category);
             book.setImage(dto.image());
+            book.setActive(true);
 
-            create(book);
+            this.create(book);
 
         } catch (ResponseStatusException e) {
             throw e;
@@ -101,41 +109,46 @@ public class BookService {
         }
     }
 
-    public List<BookListDTO> listar(String title, String author, String genero) {
+    public List<BookResponseDTO> listar(String title, String author, String category) {
         List<Book> books;
 
-        if (title != null && author != null && genero != null) {
-            books = repository.findByTituloContainingAndAutorContainingAndGenero_GeneroContaining(title, author, genero);
+        if (title != null && author != null && category != null) {
+            books = repository.findByTitleContainingAndAuthorContainingAndCategory_CategoryContaining(title, author, category);
         } else if (title != null && author != null) {
-            books = repository.findByTituloContainingAndAutorContaining(title, author);
-        } else if (title != null && genero != null) {
-            books = repository.findByTituloContainingAndGenero_GeneroContaining(title, genero);
-        } else if (author != null && genero != null) {
-            books = repository.findByAutorContainingAndGenero_GeneroContaining(author, genero);
+            books = repository.findByTitleContainingAndAuthorContaining(title, author);
+        } else if (title != null && category != null) {
+            books = repository.findByTitleContainingAndCategory_CategoryContaining(title, category);
+        } else if (author != null && category != null) {
+            books = repository.findByAuthorContainingAndCategory_CategoryContaining(author, category);
         } else if (title != null) {
-            books = repository.findByTituloContaining(title);
+            books = repository.findByTitleContaining(title);
         } else if (author != null) {
-            books = repository.findByAutorContaining(author);
-        } else if (genero != null) {
-            books = repository.findByGenero_GeneroContaining(genero);
+            books = repository.findByAuthorContaining(author);
+        } else if (category != null) {
+            books = repository.findByCategory_CategoryContaining(category);
         } else {
             books = repository.findAll();
         }
 
-        List<BookListDTO> dtos = new ArrayList<>();
+        List<BookResponseDTO> dtos = new ArrayList<>();
         for (Book book : books) {
-            BookListDTO bookDTO = new BookListDTO(
-                    book.getId(),
-                    book.getTitulo(),
-                    book.getAutor(),
-                    book.getGenero().getGenero(),
-                    book.getQuantidadeDisponível(),
+            BookResponseDTO bookDTO = new BookResponseDTO(
+                    book.getCode(),
+                    book.getTitle(),
+                    book.getAuthor(),
+                    book.getIsbn(),
+                    book.getPublisher(),
+                    book.getLanguage(),
+                    book.getLocation(),
                     book.getDescription(),
-                    book.getImage(),
-                    book.getPublishYear(),
+                    book.getAvailableQuantity(),
                     book.getPageCount(),
+                    book.getPublishYear(),
                     book.getRating(),
-                    book.getIsFavority()
+                    book.getCategory().getCategory(),
+                    book.getCategory().getCode(),
+                    book.getImage(),
+                    book.getActive()
             );
             dtos.add(bookDTO);
         }
@@ -148,8 +161,8 @@ public class BookService {
     }
 
 
-    public BookDTO listarPorId(String id) {
-        Book book = repository.findById(id)
+    public BookDetailsDTO listarPorCode(String code) {
+        Book book = repository.findByCode(code)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Livro não encontrado"));
 
         List<CommentDTO> commentDTOs = book.getComments().stream()
@@ -169,17 +182,36 @@ public class BookService {
                 ))
                 .toList();
 
-        return new BookDTO(
-                book.getId(),
-                book.getTitulo(),
-                book.getAutor(),
-                book.getGenero().getGenero(),
-                book.getQuantidadeDisponível(),
+        List<LoanDTO>  loanDTOS = book.getLoans().stream()
+                .map(comment -> new LoanDTO(
+                        comment.getId(),
+                        comment.getUser().getName(),
+                        comment.getBook().getTitle(),
+                        comment.getDataEmprestimo(),
+                        comment.getDataDevolucao(),
+                        comment.getStatus()
+
+                ))
+                .toList();
+
+        return new BookDetailsDTO(
+                book.getCode(),
+                book.getTitle(),
+                book.getAuthor(),
+                book.getIsbn(),
+                book.getPublisher(),
+                book.getLanguage(),
+                book.getLocation(),
                 book.getDescription(),
-                book.getImage(),
-                book.getPublishYear(),
+                book.getAvailableQuantity(),
                 book.getPageCount(),
+                book.getPublishYear(),
                 book.getRating(),
+                book.getCategory().getCategory(),
+                book.getCategory().getCode(),
+                book.getImage(),
+                book.getActive(),
+                loanDTOS,
                 commentDTOs
         );
     }

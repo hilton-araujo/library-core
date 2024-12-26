@@ -5,18 +5,27 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, String> {
-    boolean existsByTitulo(String titulo);
+    boolean existsByTitle(String title);
 
     List<Book> findByIsHighlightedTrue();
 
-    List<Book> findByTituloContaining(String titulo);
-    List<Book> findByAutorContaining(String autor);
-    List<Book> findByGenero_GeneroContaining(String genero);
-    List<Book> findByTituloContainingAndAutorContaining(String titulo, String autor);
-    List<Book> findByTituloContainingAndGenero_GeneroContaining(String titulo, String genero);
-    List<Book> findByAutorContainingAndGenero_GeneroContaining(String autor, String genero);
-    List<Book> findByTituloContainingAndAutorContainingAndGenero_GeneroContaining(String titulo, String autor, String genero);
+    List<Book> findByTitleContainingAndAuthorContainingAndCategory_CategoryContaining(String title, String author, String category);
+
+    List<Book> findByTitleContainingAndAuthorContaining(String title, String author);
+
+    List<Book> findByTitleContainingAndCategory_CategoryContaining(String title, String category);
+
+    List<Book> findByTitleContaining(String title);
+
+    List<Book> findByAuthorContainingAndCategory_CategoryContaining(String author, String category);
+
+    List<Book> findByAuthorContaining(String author);
+
+    List<Book> findByCategory_CategoryContaining(String category);
+
+    Optional<Book> findByCode(String code);
 }

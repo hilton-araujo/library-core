@@ -1,7 +1,7 @@
 package com.biblioteca.gestao_biblioteca.service;
 
-import com.biblioteca.gestao_biblioteca.dtos.CreateWishDTO;
-import com.biblioteca.gestao_biblioteca.dtos.Response.WishBookDTO;
+import com.biblioteca.gestao_biblioteca.dtos.request.CreateWishDTO;
+import com.biblioteca.gestao_biblioteca.dtos.response.WishBookDTO;
 import com.biblioteca.gestao_biblioteca.models.Book;
 import com.biblioteca.gestao_biblioteca.models.Wish;
 import com.biblioteca.gestao_biblioteca.repository.BookRepository;
@@ -54,7 +54,7 @@ public class WishService {
         for (Wish wish : wishes){
             WishBookDTO bookDTO = new WishBookDTO(
                     wish.getId(),
-                    wish.getBook().getTitulo()
+                    wish.getBook().getTitle()
             );
             dtos.add(bookDTO);
         }

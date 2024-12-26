@@ -2,11 +2,11 @@ package com.biblioteca.gestao_biblioteca.functions;
 
 import java.util.Random;
 
-public class GerarCodigo {
+public class GeneratorCode {
 
     private static final int TAMANHO_CODIGO = 7;
 
-    public static String gerarCodigo() {
+    public static String generateCode() {
         Random random = new Random();
         StringBuilder codigo = new StringBuilder();
 

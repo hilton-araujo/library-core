@@ -1,7 +1,7 @@
 package com.biblioteca.gestao_biblioteca.controllers;
 
-import com.biblioteca.gestao_biblioteca.dtos.CreateWishDTO;
-import com.biblioteca.gestao_biblioteca.dtos.Response.ResponseApi;
+import com.biblioteca.gestao_biblioteca.dtos.request.CreateWishDTO;
+import com.biblioteca.gestao_biblioteca.dtos.response.ResponseApi;
 import com.biblioteca.gestao_biblioteca.service.WishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

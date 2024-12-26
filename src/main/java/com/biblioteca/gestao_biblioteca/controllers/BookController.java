@@ -1,11 +1,11 @@
 package com.biblioteca.gestao_biblioteca.controllers;
 
-import com.biblioteca.gestao_biblioteca.dtos.AtualizarLivroDTO;
-import com.biblioteca.gestao_biblioteca.dtos.CreateBookDTO;
-import com.biblioteca.gestao_biblioteca.dtos.CreateCommentDTO;
-import com.biblioteca.gestao_biblioteca.dtos.CreateReplyDTO;
-import com.biblioteca.gestao_biblioteca.dtos.Response.BookListDTO;
-import com.biblioteca.gestao_biblioteca.dtos.Response.ResponseApi;
+import com.biblioteca.gestao_biblioteca.dtos.request.BookRequestDTO;
+import com.biblioteca.gestao_biblioteca.dtos.request.BookUpdateDTO;
+import com.biblioteca.gestao_biblioteca.dtos.request.CreateCommentDTO;
+import com.biblioteca.gestao_biblioteca.dtos.request.CreateReplyDTO;
+import com.biblioteca.gestao_biblioteca.dtos.response.BookResponseDTO;
+import com.biblioteca.gestao_biblioteca.dtos.response.ResponseApi;
 import com.biblioteca.gestao_biblioteca.models.Book;
 import com.biblioteca.gestao_biblioteca.service.BookService;
 import com.biblioteca.gestao_biblioteca.service.CommentService;
@@ -30,7 +30,7 @@ public class BookController {
     private CommentService commentService;
 
     @PostMapping
-    public ResponseEntity<ResponseApi> registrarLivro(@RequestBody @Valid CreateBookDTO dto) {
+    public ResponseEntity<ResponseApi> registrarLivro(@RequestBody @Valid BookRequestDTO dto) {
         try {
             service.registrarBook(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseApi("Livro cadastrado com sucesso!", null));
@@ -45,10 +45,10 @@ public class BookController {
     public ResponseEntity<ResponseApi> listar(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String author,
-            @RequestParam(required = false) String genero
+            @RequestParam(required = false) String category
     ) {
         try {
-            List<BookListDTO> books = service.listar(title, author, genero);
+            List<BookResponseDTO> books = service.listar(title, author, category);
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseApi("Lista de livros", books));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseApi("Erro ao listar livros", null));
@@ -56,13 +56,13 @@ public class BookController {
     }
 
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<ResponseApi> listarPorId(@PathVariable String id) throws ChangeSetPersister.NotFoundException {
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseApi("Livro com id " + id, service.listarPorId(id)));
+    @GetMapping(value = "/{code}")
+    public ResponseEntity<ResponseApi> listarPorCode(@PathVariable String code) throws ChangeSetPersister.NotFoundException {
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseApi("Livro com codigo " + code, service.listarPorCode(code)));
     }
 
     @PutMapping
-    public ResponseEntity<ResponseApi> atualizarLivro(@RequestBody @Valid AtualizarLivroDTO dto) {
+    public ResponseEntity<ResponseApi> atualizarLivro(@RequestBody @Valid BookUpdateDTO dto) {
         try {
             service.atualizarBook(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseApi("Livro atualizado com sucesso!", null));
