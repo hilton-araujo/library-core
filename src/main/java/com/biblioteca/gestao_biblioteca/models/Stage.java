@@ -18,11 +18,13 @@ public class Stage {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
+    private String code;
+
     @Column(nullable = false)
     private String designation;
 
     @Column(nullable = false)
-    private Integer order;
+    private Integer stageOrder;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "workflow_id", nullable = false)

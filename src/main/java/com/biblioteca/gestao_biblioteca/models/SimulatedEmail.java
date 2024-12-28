@@ -5,32 +5,29 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.time.LocalDateTime;
 
-@Entity(name = "Task")
-@Table(name = "task")
+@Entity(name = "SimulatedEmail")
+@Table(name = "simulated_email")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Task {
+public class SimulatedEmail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    private String code;
+    @Column(nullable = false)
+    private String recipientEmail;
 
     @Column(nullable = false)
-    private String designation;
+    private String subject;
 
-    @ManyToOne
-    @JoinColumn(name = "stage_id", nullable = false)
-    private Stage stage;
-
-    @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String body;
 
     @Column(nullable = false)
-    private Boolean concluida = false;
+    private LocalDateTime sentAt;
 }

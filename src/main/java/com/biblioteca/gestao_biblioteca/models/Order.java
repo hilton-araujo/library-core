@@ -6,31 +6,31 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "Task")
-@Table(name = "task")
+import java.time.LocalDateTime;
+
+@Entity(name = "Order")
+@Table(name = "order")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Task {
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    private String code;
-
-    @Column(nullable = false)
     private String designation;
 
-    @ManyToOne
-    @JoinColumn(name = "stage_id", nullable = false)
-    private Stage stage;
-
-    @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
+    private String description;
 
     @Column(nullable = false)
-    private Boolean concluida = false;
+    private Client clientId;
+
+    @ManyToOne
+    @JoinColumn(name = "order_type_id", nullable = false)
+    private OrderType orderType;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

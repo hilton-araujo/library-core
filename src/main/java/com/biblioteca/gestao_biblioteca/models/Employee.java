@@ -18,6 +18,8 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
+    private String code;
+
     @Column(nullable = false)
     private String name;
 
