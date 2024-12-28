@@ -6,26 +6,29 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "Workflow")
-@Table(name = "workflow")
+@Entity(name = "Task")
+@Table(name = "task")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Workflow {
+public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    private String code;
-
     @Column(nullable = false)
     private String designation;
 
-    private String descricao;
+    @ManyToOne
+    @JoinColumn(name = "stage_id", nullable = false)
+    private Stage stage;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "order_type_id", nullable = false)
-    private OrderType orderType;
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
+
+    @Column(nullable = false)
+    private Boolean concluida = false;
 }
