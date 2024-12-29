@@ -1,6 +1,5 @@
 package com.biblioteca.gestao_biblioteca.controllers;
 
-import com.biblioteca.gestao_biblioteca.dtos.request.CreateGeneroDTO;
 import com.biblioteca.gestao_biblioteca.dtos.request.WorkflowRequestDTO;
 import com.biblioteca.gestao_biblioteca.dtos.response.ResponseApi;
 import com.biblioteca.gestao_biblioteca.service.WorkflowService;
@@ -19,7 +18,7 @@ public class WorkflowController {
     private WorkflowService service;
 
     @PostMapping
-    public ResponseEntity<ResponseApi> criarGenero(@RequestBody @Valid WorkflowRequestDTO dto){
+    public ResponseEntity<ResponseApi> criarWorkflow(@RequestBody @Valid WorkflowRequestDTO dto){
         try {
             service.criarWorkflow(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseApi("Workflow cadastrado com sucesso!", null));
@@ -28,5 +27,10 @@ public class WorkflowController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseApi("Erro ao cadastrar workflow", null));
         }
+    }
+
+    @GetMapping
+    public ResponseEntity<ResponseApi> listar(){
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseApi("Todos workflows do sistema", service.listar()));
     }
 }

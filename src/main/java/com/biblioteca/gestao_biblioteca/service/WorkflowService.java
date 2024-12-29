@@ -2,6 +2,7 @@ package com.biblioteca.gestao_biblioteca.service;
 
 
 import com.biblioteca.gestao_biblioteca.dtos.request.WorkflowRequestDTO;
+import com.biblioteca.gestao_biblioteca.dtos.response.WorkflowResponseDTO;
 import com.biblioteca.gestao_biblioteca.functions.GeneratorCode;
 import com.biblioteca.gestao_biblioteca.models.OrderType;
 import com.biblioteca.gestao_biblioteca.models.Workflow;
@@ -11,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class WorkflowService {
@@ -49,5 +53,21 @@ public class WorkflowService {
         catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao registrar workflow", e);
         }
+    }
+
+    public List<WorkflowResponseDTO> listar(){
+        List<Workflow> workflows = repository.findAll();
+        List<WorkflowResponseDTO> dtos = new ArrayList<>();
+
+        for (Workflow workflow : workflows){
+            WorkflowResponseDTO workflowResponseDTO = new WorkflowResponseDTO(
+                    workflow.getCode(),
+                    workflow.getDesignation(),
+                    workflow.getDescricao(),
+                    workflow.getOrderType().getDesignation()
+            );
+            dtos.add(workflowResponseDTO);
+        }
+        return dtos;
     }
 }

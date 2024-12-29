@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity(name = "Task")
 @Table(name = "task")
 @Setter
@@ -27,9 +29,13 @@ public class Task {
     @JoinColumn(name = "stage_id", nullable = false)
     private Stage stage;
 
-    @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
+    @ManyToMany
+    @JoinTable(
+            name = "employee_task",
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "employee_id")
+    )
+    private List<Employee> employee;
 
     @Column(nullable = false)
     private Boolean concluida = false;

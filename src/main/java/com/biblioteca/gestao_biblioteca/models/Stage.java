@@ -29,4 +29,14 @@ public class Stage {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "workflow_id", nullable = false)
     private Workflow workflow;
+
+    @Override
+    public String toString() {
+        return "Stage{" +
+                "id=" + id +
+                ", designation='" + designation + '\'' +
+                ", workflow=" + workflow.getDesignation() +
+                '}';
+    }
+
 }

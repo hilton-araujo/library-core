@@ -1,6 +1,7 @@
 package com.biblioteca.gestao_biblioteca.service;
 
 import com.biblioteca.gestao_biblioteca.dtos.request.StageRequestDTO;
+import com.biblioteca.gestao_biblioteca.dtos.response.StageResponseDTO;
 import com.biblioteca.gestao_biblioteca.functions.GeneratorCode;
 import com.biblioteca.gestao_biblioteca.models.Stage;
 import com.biblioteca.gestao_biblioteca.models.Workflow;
@@ -10,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class StageService {
@@ -45,5 +49,21 @@ public class StageService {
         catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao registrar etapa", e);
         }
+    }
+
+    public List<StageResponseDTO> listar(){
+        List<Stage> stages = repository.findAll();
+        List<StageResponseDTO> dto = new ArrayList<>();
+
+        for (Stage stage : stages){
+            StageResponseDTO stageRequestDTO = new StageResponseDTO(
+                    stage.getCode(),
+                    stage.getDesignation(),
+                    stage.getStageOrder(),
+                    stage.getWorkflow().getDesignation()
+            );
+            dto.add(stageRequestDTO);
+        }
+        return dto;
     }
 }

@@ -27,4 +27,14 @@ public class OrderType {
     @Column(name = "typeOfOrder", nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderTypeEnum orderType;
+
+    @Override
+    public String toString() {
+        return "OrderType{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", designation='" + designation + '\'' +
+                '}';
+    }
+
 }

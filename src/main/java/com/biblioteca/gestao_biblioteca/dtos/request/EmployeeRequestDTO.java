@@ -6,6 +6,8 @@ public record EmployeeRequestDTO(
 
         String email,
 
-        String position
+        String position,
+
+        String senha
 ) {
 }

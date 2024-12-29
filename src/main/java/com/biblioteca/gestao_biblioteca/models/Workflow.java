@@ -28,4 +28,14 @@ public class Workflow {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_type_id", nullable = false)
     private OrderType orderType;
+
+    @Override
+    public String toString() {
+        return "Workflow{" +
+                "id=" + id +
+                ", name='" + designation + '\'' +
+                ", orderType=" + orderType.getDesignation() +
+                '}';
+    }
+
 }
