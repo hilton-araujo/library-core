@@ -22,29 +22,35 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private final SecurityFilter securityFilter;
+
     @Autowired
-    SecurityFilter securityFilter;
+    public SecurityConfig(SecurityFilter securityFilter) {
+        this.securityFilter = securityFilter;
+    }
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Configuração de CORS
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.GET, "/swagger-ui/**",
+                        .requestMatchers(HttpMethod.GET,
+                                "/swagger-ui/**",
                                 "/swagger-resources/**",
                                 "/v2/api-docs/**",
                                 "/v3/api-docs/**",
                                 "/webjars/**"
                         ).permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/resister").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/login", "/api/register").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

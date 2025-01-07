@@ -18,41 +18,39 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    private static final String ISSUER = "remedios_api";
+    private static final String ISSUER = "biblioteca_api";
+    private static final int EXPIRATION_HOURS = 2;
 
     public String gerarToken(Auth usuario) {
         try {
             var algorithm = Algorithm.HMAC256(secret);
-            String token = JWT.create()
-                    .withIssuer("remedios_api")
+            return JWT.create()
+                    .withIssuer(ISSUER)
                     .withSubject(usuario.getUsername())
-                    .withExpiresAt(dataExpiracao())
+                    .withExpiresAt(calcularDataExpiracao())
                     .sign(algorithm);
-            return token;
-        } catch (JWTCreationException exception){
-            throw new RuntimeException("Erro ao gerar token", exception);
+        } catch (JWTCreationException exception) {
+            throw new TokenCreationException("Erro ao gerar o token para o usuário: " + usuario.getUsername(), exception);
         }
     }
 
-    public String getSubject(String TokenJWT){
+    public String getSubject(String tokenJWT) {
         try {
             var algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
-                    .withIssuer("remedios_api")
+                    .withIssuer(ISSUER)
                     .build()
-                    .verify(TokenJWT)
+                    .verify(tokenJWT)
                     .getSubject();
-        } catch (JWTVerificationException exception){
-            throw new RuntimeException("Token invalido ou expirado.");
+        } catch (JWTVerificationException exception) {
+            throw new TokenVerificationException("Token inválido ou expirado.", exception);
         }
     }
 
-
-    private Instant dataExpiracao() {
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.UTC); // Use UTC para evitar problemas de timezone
+    private Instant calcularDataExpiracao() {
+        return LocalDateTime.now().plusHours(EXPIRATION_HOURS).toInstant(ZoneOffset.UTC);
     }
 
-    // Exceções personalizadas
     public static class TokenCreationException extends RuntimeException {
         public TokenCreationException(String message, Throwable cause) {
             super(message, cause);

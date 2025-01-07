@@ -7,6 +7,7 @@ import com.biblioteca.gestao_biblioteca.dtos.response.ResponseApi;
 import com.biblioteca.gestao_biblioteca.infra.TokenService;
 import com.biblioteca.gestao_biblioteca.models.Auth;
 import com.biblioteca.gestao_biblioteca.repository.AuthRepository;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,7 @@ public class AuthController {
 
 
     @PostMapping("/login")
+    @Operation(summary = "Realiza o login no sistema")
     public ResponseEntity<ResponseApi> login(@RequestBody @Valid AuthDTO data){
         var usenamePassword = new UsernamePasswordAuthenticationToken(data.username(), data.password());
         var auth = this.authenticationManager.authenticate(usenamePassword);
@@ -49,6 +51,7 @@ public class AuthController {
     }
 
     @PostMapping("/resister")
+    @Operation(summary = "Realiza o cadastro de usuarios no sistema")
     public ResponseEntity<?> resister(@RequestBody @Valid AuthResisterDTO data){
         if (this.repository.findByUsername(data.username()) != null) return ResponseEntity.badRequest().build();
         String encriptedPassword = new BCryptPasswordEncoder().encode(data.password());

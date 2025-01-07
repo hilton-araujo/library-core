@@ -3,6 +3,7 @@ package com.biblioteca.gestao_biblioteca.controllers;
 import com.biblioteca.gestao_biblioteca.dtos.response.ResponseApi;
 import com.biblioteca.gestao_biblioteca.dtos.request.ValueDTO;
 import com.biblioteca.gestao_biblioteca.service.FavorityService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ public class BookRequests {
     private FavorityService service;
 
     @PostMapping(value = "/favority")
+    @Operation(summary = "Adiciona um livros aos faroviros")
     public ResponseEntity<ResponseApi> registrarFavorito(@RequestBody ValueDTO dto) {
         try {
             service.registrarFavorito(dto);
@@ -29,6 +31,7 @@ public class BookRequests {
     }
 
     @GetMapping(value = "/book-favorities")
+    @Operation(summary = "Listar livros favoritos")
     public ResponseEntity<ResponseApi> listarFavoritos(){
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseApi("Livros favoritos", service.listarFavorito()));
     }

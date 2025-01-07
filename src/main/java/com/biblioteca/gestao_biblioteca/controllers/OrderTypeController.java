@@ -3,6 +3,7 @@ package com.biblioteca.gestao_biblioteca.controllers;
 import com.biblioteca.gestao_biblioteca.dtos.request.OrderTypeRequest;
 import com.biblioteca.gestao_biblioteca.dtos.response.ResponseApi;
 import com.biblioteca.gestao_biblioteca.service.OrderTypeService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,19 +19,21 @@ public class OrderTypeController {
     private OrderTypeService service;
 
     @PostMapping
-    public ResponseEntity<ResponseApi> criarOrderType(@RequestBody @Valid OrderTypeRequest dto){
+    @Operation(summary = "Cadastra um novo tipo de pedido no sistema")
+    public ResponseEntity<ResponseApi> criarOrderType(@RequestBody @Valid OrderTypeRequest dto) {
         try {
             service.registrarTipoPedido(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseApi("Tipo de pedido cadastrado com sucesso!", null));
-        }catch (ResponseStatusException e) {
+        } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode()).body(new ResponseApi(e.getReason(), null));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseApi("Erro ao cadastrar tipo de pedido ", null));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseApi("Erro ao cadastrar tipo de pedido", null));
         }
     }
 
     @GetMapping
-    public ResponseEntity<ResponseApi> listar(){
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseApi("Todos tipod de pedido do sistema", service.listar()));
+    @Operation(summary = "Lista todos os tipos de pedidos registrados no sistema")
+    public ResponseEntity<ResponseApi> listar() {
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseApi("Todos os tipos de pedidos do sistema", service.listar()));
     }
 }

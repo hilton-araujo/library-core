@@ -1,4 +1,4 @@
-package com.biblioteca.gestao_biblioteca.exceptions;
+package com.biblioteca.gestao_biblioteca.infrastructure.exceptions;
 
 import lombok.Data;
 import org.springframework.http.HttpStatus;

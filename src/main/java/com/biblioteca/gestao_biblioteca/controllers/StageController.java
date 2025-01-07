@@ -1,10 +1,9 @@
 package com.biblioteca.gestao_biblioteca.controllers;
 
-import com.biblioteca.gestao_biblioteca.dtos.request.OrderTypeRequest;
 import com.biblioteca.gestao_biblioteca.dtos.request.StageRequestDTO;
 import com.biblioteca.gestao_biblioteca.dtos.response.ResponseApi;
-import com.biblioteca.gestao_biblioteca.service.OrderTypeService;
 import com.biblioteca.gestao_biblioteca.service.StageService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,11 +19,12 @@ public class StageController {
     private StageService service;
 
     @PostMapping
+    @Operation(summary = "Cadastra uma nova etapa no sistema")
     public ResponseEntity<ResponseApi> criarEtapa(@RequestBody @Valid StageRequestDTO dto){
         try {
             service.registrarEtapa(dto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseApi("Etapa cadastrado com sucesso!", null));
-        }catch (ResponseStatusException e) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseApi("Etapa cadastrada com sucesso!", null));
+        } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode()).body(new ResponseApi(e.getReason(), null));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseApi("Erro ao cadastrar etapa", null));
@@ -32,7 +32,8 @@ public class StageController {
     }
 
     @GetMapping
+    @Operation(summary = "Lista todas as etapas cadastradas no sistema")
     public ResponseEntity<ResponseApi> listar(){
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseApi("Todas etapas do sistema", service.listar()));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseApi("Todas as etapas do sistema", service.listar()));
     }
 }
