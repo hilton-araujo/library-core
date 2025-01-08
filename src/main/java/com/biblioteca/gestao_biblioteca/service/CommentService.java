@@ -44,7 +44,7 @@ public class CommentService {
         try {
             Comment comment;
 
-            Book book = bookRepository.findById(dto.boolId())
+            Book book = bookRepository.findById(dto.bookId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Livro não encontrado"));
 
             Client cliente = clientRepository.findById(dto.clientId())

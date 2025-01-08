@@ -1,6 +1,6 @@
 package com.biblioteca.gestao_biblioteca.service;
 
-import com.biblioteca.gestao_biblioteca.dtos.request.CreateGeneroDTO;
+import com.biblioteca.gestao_biblioteca.dtos.request.CreateCategoryDTO;
 import com.biblioteca.gestao_biblioteca.dtos.response.CategoryDetailsDTO;
 import com.biblioteca.gestao_biblioteca.dtos.response.GeneroDTO;
 import com.biblioteca.gestao_biblioteca.functions.GeneratorCode;
@@ -24,7 +24,7 @@ public class CategoryService {
         return repository.save(genero);
     }
 
-    public void registrarGenero(CreateGeneroDTO dto) {
+    public void registrarGenero(CreateCategoryDTO dto) {
         try {
             Category genero;
             boolean existByGenero = repository.existsByCategory(dto.category());

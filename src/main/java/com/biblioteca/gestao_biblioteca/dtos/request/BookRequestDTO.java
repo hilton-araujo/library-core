@@ -12,10 +12,14 @@ public record BookRequestDTO(
         @NotBlank(message = "O autor não pode ser vazio.")
         String author,
 
+        @NotNull(message = "O ano de publicação é obrigatório.")
+        @NotBlank(message = "O ano de publicação não pode ser vazio.")
         String publisher,
 
         String language,
 
+        @NotNull(message = "O local de publicação é obrigatório.")
+        @NotBlank(message = "O local de publicação não pode ser vazio.")
         String location,
 
         String description,

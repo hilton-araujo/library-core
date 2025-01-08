@@ -74,7 +74,7 @@ public class OrderService {
             order.setClientId(client);
             order.setOrderType(orderType);
 
-            for (String bookCode : dto.bookCodes()) {
+            for (String bookCode : dto.bookCode()) {
                 Book book = bookRepository.findByCode(bookCode)
                         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Livro não encontrado: " + bookCode));
                 books.add(book);

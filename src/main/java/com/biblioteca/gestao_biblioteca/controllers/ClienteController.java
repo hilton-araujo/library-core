@@ -6,6 +6,7 @@ import com.biblioteca.gestao_biblioteca.dtos.response.ResponseApi;
 import com.biblioteca.gestao_biblioteca.infrastructure.exceptions.ContentAlreadyExistsException;
 import com.biblioteca.gestao_biblioteca.service.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class ClienteController {
 
     @PostMapping
     @Operation(summary = "Cadastra um novo cliente no sistema")
-    public ResponseEntity<ResponseApi> criarCliente(@RequestBody ClientCreateRequest dto) throws ContentAlreadyExistsException {
+    public ResponseEntity<ResponseApi> criarCliente(@Valid @RequestBody ClientCreateRequest dto) throws ContentAlreadyExistsException {
         try {
             service.registrar(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseApi("Cliente cadastrado com sucesso!", null));
@@ -48,7 +49,7 @@ public class ClienteController {
 
     @PutMapping
     @Operation(summary = "Atualiza os detalhes de um cliente existente")
-    public ResponseEntity<ResponseApi> atualizarCliente(@RequestBody AtualizarClienteDTO dto) throws ContentAlreadyExistsException {
+    public ResponseEntity<ResponseApi> atualizarCliente(@Valid  @RequestBody AtualizarClienteDTO dto) throws ContentAlreadyExistsException {
         try {
             service.atualizaar(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseApi("Cliente atualizado com sucesso!", null));

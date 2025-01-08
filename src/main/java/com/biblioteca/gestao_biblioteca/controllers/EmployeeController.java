@@ -20,7 +20,7 @@ public class EmployeeController {
 
     @PostMapping
     @Operation(summary = "Registrar um novo funcionário", description = "Cadastra um novo funcionário com as informações fornecidas.")
-    public ResponseEntity<ResponseApi> criarFuncionario(@RequestBody @Valid EmployeeRequestDTO dto) {
+    public ResponseEntity<ResponseApi> criarFuncionario(@Valid @RequestBody EmployeeRequestDTO dto) {
         try {
             service.registrarFuncionario(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseApi("Funcionário registrado com sucesso!", null));

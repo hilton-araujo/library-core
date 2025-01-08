@@ -1,6 +1,6 @@
 package com.biblioteca.gestao_biblioteca.controllers;
 
-import com.biblioteca.gestao_biblioteca.dtos.request.CreateGeneroDTO;
+import com.biblioteca.gestao_biblioteca.dtos.request.CreateCategoryDTO;
 import com.biblioteca.gestao_biblioteca.dtos.response.GeneroDTO;
 import com.biblioteca.gestao_biblioteca.dtos.response.ResponseApi;
 import com.biblioteca.gestao_biblioteca.service.CategoryService;
@@ -21,7 +21,7 @@ public class CategoryController {
 
     @PostMapping
     @Operation(summary = "Cadastra uma nova categoria no sistema")
-    public ResponseEntity<ResponseApi> criarCategoria(@RequestBody @Valid CreateGeneroDTO dto) {
+    public ResponseEntity<ResponseApi> criarCategoria(@RequestBody @Valid CreateCategoryDTO dto) {
         try {
             service.registrarGenero(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseApi("A categoria foi cadastrada com sucesso!", null));
