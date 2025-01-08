@@ -1,7 +1,7 @@
 package com.biblioteca.gestao_biblioteca.models;
 
 
-import com.biblioteca.gestao_biblioteca.dtos.request.CreateGeneroDTO;
+import com.biblioteca.gestao_biblioteca.dtos.request.CreateCategoryDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class Category {
 
     private String category;
 
-    public Category(CreateGeneroDTO dto) {
+    public Category(CreateCategoryDTO dto) {
         this.category = dto.category();
     }
 }

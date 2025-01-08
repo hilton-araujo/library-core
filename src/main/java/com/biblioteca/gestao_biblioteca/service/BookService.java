@@ -87,7 +87,6 @@ public class BookService {
             book.setCode(dto.code());
             book.setTitle(dto.title());
             book.setAuthor(dto.author());
-            book.setIsbn(dto.isbn());
             book.setPublisher(dto.publisher());
             book.setLanguage(dto.language());
             book.setLocation(dto.location());
