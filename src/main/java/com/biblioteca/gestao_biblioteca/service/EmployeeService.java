@@ -48,6 +48,13 @@ public class EmployeeService {
             employee = new Employee();
             employee.setCode(GeneratorCode.generateCode());
             employee.setName(dto.name());
+            employee.setSurname(dto.surname());
+            employee.setDocumentType(dto.documentType());
+            employee.setDocumentNumber(dto.documentNumber());
+            employee.setNuit(dto.nuit());
+            employee.setMsidn(dto.msidn());
+            employee.setGenre(dto.genre());
+            employee.setMaritalStatus(dto.maritalStatus());
             employee.setEmail(dto.email());
             employee.setPosition(dto.position());
             employee.setSenha(encryptedPassword);

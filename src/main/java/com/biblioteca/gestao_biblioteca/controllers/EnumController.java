@@ -1,6 +1,7 @@
 package com.biblioteca.gestao_biblioteca.controllers;
 
 import com.biblioteca.gestao_biblioteca.dtos.EnumsRespostas;
+import com.biblioteca.gestao_biblioteca.enums.DocumentType;
 import com.biblioteca.gestao_biblioteca.enums.OrderTypeEnum;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,6 +23,14 @@ public class EnumController {
     public List<EnumsRespostas> listarTiposDePedidos() {
         return Arrays.stream(OrderTypeEnum.values())
                 .map(orderType -> new EnumsRespostas(orderType.getValue(), orderType.toString()))
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/document-type")
+    @Operation(summary = "Listar os tipos de documentos", description = "Retorna uma lista com todos os tipos de docuemtos de identificação disponíveis no sistema.")
+    public List<EnumsRespostas> listarTiposDeDocumento() {
+        return Arrays.stream(DocumentType.values())
+                .map(documentType -> new EnumsRespostas(documentType.getValue(), documentType.toString()))
                 .collect(Collectors.toList());
     }
 }

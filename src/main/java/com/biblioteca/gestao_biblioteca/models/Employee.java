@@ -1,5 +1,6 @@
 package com.biblioteca.gestao_biblioteca.models;
 
+import com.biblioteca.gestao_biblioteca.enums.DocumentType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,6 +23,28 @@ public class Employee {
 
     @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
+    private String surname;
+
+    @Column(nullable = false)
+    private String maritalStatus;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private DocumentType documentType;
+
+    @Column(nullable = false)
+    private String documentNumber;
+
+    @Column(nullable = false)
+    private String nuit;
+
+    @Column(nullable = false)
+    private String msidn;
+
+    @Column(nullable = false)
+    private String genre;
 
     @Column(nullable = false, unique = true)
     private String email;
