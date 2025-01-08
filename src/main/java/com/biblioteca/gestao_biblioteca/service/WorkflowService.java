@@ -44,6 +44,7 @@ public class WorkflowService {
             workflow = new Workflow();
             workflow.setCode(GeneratorCode.generateCode());
             workflow.setDesignation(dto.designation());
+            workflow.setDescricao(dto.description());
             workflow.setOrderType(orderType);
 
             create(workflow);

@@ -4,6 +4,8 @@ public record WorkflowRequestDTO(
 
         String designation,
 
+        String description,
+
         String order_type_code
 ) {
 }
