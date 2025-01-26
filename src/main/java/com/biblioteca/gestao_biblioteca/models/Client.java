@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -53,4 +54,9 @@ public class Client {
 
     @Column(nullable = false, unique = true)
     private String senha;
+
+    @OneToMany(mappedBy = "clientId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Order> orders;
+
+
 }

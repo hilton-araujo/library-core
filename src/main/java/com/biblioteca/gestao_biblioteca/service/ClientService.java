@@ -2,11 +2,12 @@ package com.biblioteca.gestao_biblioteca.service;
 
 import com.biblioteca.gestao_biblioteca.dtos.request.AtualizarClienteDTO;
 import com.biblioteca.gestao_biblioteca.dtos.request.ClientCreateRequest;
-import com.biblioteca.gestao_biblioteca.dtos.response.ClientResponse;
+import com.biblioteca.gestao_biblioteca.dtos.response.*;
 import com.biblioteca.gestao_biblioteca.enums.Papel;
 import com.biblioteca.gestao_biblioteca.functions.GeneratorCode;
+import com.biblioteca.gestao_biblioteca.infrastructure.exceptions.ContentAlreadyExistsException;
+import com.biblioteca.gestao_biblioteca.infrastructure.exceptions.NotFoundException;
 import com.biblioteca.gestao_biblioteca.models.Auth;
-import com.biblioteca.gestao_biblioteca.models.Book;
 import com.biblioteca.gestao_biblioteca.models.Client;
 import com.biblioteca.gestao_biblioteca.repository.AuthRepository;
 import com.biblioteca.gestao_biblioteca.repository.ClientRepository;
@@ -16,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -36,14 +36,29 @@ public class ClientService {
         return clientRepository.save(client);
     }
 
+    private void verificarConflitos(String email, String nuit) throws ContentAlreadyExistsException {
+        if (clientRepository.existsByEmail(email) || clientRepository.existsByNuit(nuit)) {
+            throw new ContentAlreadyExistsException("Cliente já existe!");
+        }
+    }
+
+    private Client buscarClientePorNuit(String nuit) throws NotFoundException {
+        return clientRepository.findByNuit(nuit)
+                .orElseThrow(() -> new NotFoundException("Cliente não encontrado"));
+    }
+
+    private Client buscarClientePorCode(String code) throws NotFoundException{
+        return clientRepository.findByCode(code)
+                .orElseThrow(() -> new NotFoundException("Cliente não encontrado"));
+    }
+
+
     @Transactional
     public void registrar(ClientCreateRequest dto) {
         try {
             Client cliente;
 
-            if (clientRepository.existsByEmail(dto.email()) || clientRepository.existsByNuit(dto.nuit())) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "Cliente já existe!");
-            }
+            verificarConflitos(dto.email(), dto.nuit());
 
             String encryptedPassword = passwordEncoder.encode(dto.senha());
             Auth auth = new Auth(dto.email(), encryptedPassword, Papel.CLIENTE);
@@ -62,7 +77,7 @@ public class ClientService {
             cliente.setSenha(encryptedPassword);
 
             authRepository.save(auth);
-            create(cliente);
+            this.create(cliente);
 
         } catch (ResponseStatusException e) {
             throw e;
@@ -74,13 +89,10 @@ public class ClientService {
     @Transactional
     public void atualizaar(AtualizarClienteDTO dto) {
         try {
-            Client cliente = clientRepository.findByNuit(dto.nuit())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado"));
+            Client cliente = buscarClientePorNuit(dto.nuit());
 
             if (!cliente.getNuit().equals(dto.nuit()) || !cliente.getEmail().equals(dto.email())) {
-                if (clientRepository.existsByEmail(dto.email()) || clientRepository.existsByNuit(dto.nuit())) {
-                    throw new ResponseStatusException(HttpStatus.CONFLICT, "Cliente já existe!");
-                }
+                verificarConflitos(dto.email(), dto.nuit());
             }
 
             cliente.setCode(dto.code());
@@ -105,32 +117,40 @@ public class ClientService {
 
     public List<ClientResponse> listar() {
         List<Client> clientes = clientRepository.findAll();
-        List<ClientResponse> dtos = new ArrayList<>();
-
-        for (Client cliente : clientes) {
-            ClientResponse clientDTO = new ClientResponse(
-                    cliente.getCode(),
-                    cliente.getName(),
-                    cliente.getSurname(),
-                    cliente.getNuit(),
-                    cliente.getDocumentNumber(),
-                    cliente.getEmail(),
-                    cliente.getPhone(),
-                    cliente.getAddress(),
-                    cliente.getCity(),
-                    cliente.getPostalCode(),
-                    cliente.getActive()
-            );
-            dtos.add(clientDTO);
-        }
-        return dtos;
+        return clientes.stream()
+                .map(cliente -> new ClientResponse(
+                        cliente.getCode(),
+                        cliente.getName(),
+                        cliente.getSurname(),
+                        cliente.getNuit(),
+                        cliente.getDocumentNumber(),
+                        cliente.getEmail(),
+                        cliente.getPhone(),
+                        cliente.getAddress(),
+                        cliente.getCity(),
+                        cliente.getPostalCode(),
+                        cliente.getActive()
+                ))
+                .toList();
     }
 
-    public ClientResponse listarPorCode(String nuit){
+    public ClientResponseDetails listarDetalhesCliente(String nuit) throws NotFoundException {
         Client client = clientRepository.findByNuit(nuit)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado"));
+                .orElseThrow(() -> new NotFoundException("Cliente não encontrado"));
 
-        return new ClientResponse(
+
+        List<OrderResponseDTO> orderResponseDTOS = client.getOrders().stream()
+                .map(order -> new OrderResponseDTO(
+                        order.getId(),
+                        order.getCode(),
+                        order.getDesignation(),
+                        order.getDescription(),
+                        order.getClientId().getName(),
+                        order.getOrderType().getDesignation()
+                ))
+                .toList();
+
+        return new ClientResponseDetails(
                 client.getCode(),
                 client.getName(),
                 client.getSurname(),
@@ -141,7 +161,53 @@ public class ClientService {
                 client.getAddress(),
                 client.getCity(),
                 client.getPostalCode(),
-                client.getActive()
+                client.getActive(),
+                orderResponseDTOS
         );
+    }
+
+
+    public void inativeClient(String code){
+        try {
+            if (code == null || code.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Código do cliente não fornecido");
+            }
+
+            Client client = buscarClientePorCode(code);
+
+            if (!client.getActive()) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Cliente já foi inativado");
+            }
+
+            client.setActive(false);
+            this.create(client);
+
+        }catch (ResponseStatusException e){
+            throw e;
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Ocorreu um erro ao inativar cliente");
+        }
+    }
+
+    public void ativarClient(String code){
+        try {
+            if (code == null || code.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Código do cliente não fornecido");
+            }
+
+            Client client = buscarClientePorCode(code);
+
+            if (client.getActive()) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Cliente já foi ativado");
+            }
+
+            client.setActive(true);
+            this.create(client);
+
+        }catch (ResponseStatusException e){
+            throw e;
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Ocorreu um erro ao inativar cliente");
+        }
     }
 }

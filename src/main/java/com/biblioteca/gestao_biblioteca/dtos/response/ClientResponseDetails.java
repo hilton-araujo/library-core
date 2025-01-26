@@ -2,8 +2,7 @@ package com.biblioteca.gestao_biblioteca.dtos.response;
 
 import java.util.List;
 
-public record ClientResponse(
-
+public record ClientResponseDetails(
         String code,
         String name,
         String surname,
@@ -14,7 +13,7 @@ public record ClientResponse(
         String address,
         String city,
         String postalCode,
-        Boolean active
-
-        ) {
+        Boolean active,
+        List<OrderResponseDTO> orders
+) {
 }

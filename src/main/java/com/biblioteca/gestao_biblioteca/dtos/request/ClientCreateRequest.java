@@ -29,7 +29,7 @@ public record ClientCreateRequest(
         String city,
 
         @NotBlank(message = "O CEP é obrigatório.")
-        @Pattern(regexp = "\\d{8}", message = "O CEP deve conter 8 dígitos.")
+        @Pattern(regexp = "\\d{4}", message = "O CEP deve conter 8 dígitos.")
         String postalCode,
 
         @NotBlank(message = "O número do documento é obrigatório.")

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Objects;
 
 @Service
 public class TokenService {
@@ -22,21 +23,26 @@ public class TokenService {
     private static final int EXPIRATION_HOURS = 2;
 
     public String gerarToken(Auth usuario) {
+        validarUsuario(usuario);
+
         try {
-            var algorithm = Algorithm.HMAC256(secret);
+            Algorithm algorithm = getAlgorithm();
             return JWT.create()
                     .withIssuer(ISSUER)
                     .withSubject(usuario.getUsername())
                     .withExpiresAt(calcularDataExpiracao())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
-            throw new TokenCreationException("Erro ao gerar o token para o usuário: " + usuario.getUsername(), exception);
+            throw new TokenCreationException(
+                    String.format("Erro ao gerar o token para o usuário: %s", usuario.getUsername()), exception);
         }
     }
 
     public String getSubject(String tokenJWT) {
+        validarToken(tokenJWT);
+
         try {
-            var algorithm = Algorithm.HMAC256(secret);
+            Algorithm algorithm = getAlgorithm();
             return JWT.require(algorithm)
                     .withIssuer(ISSUER)
                     .build()
@@ -49,6 +55,22 @@ public class TokenService {
 
     private Instant calcularDataExpiracao() {
         return LocalDateTime.now().plusHours(EXPIRATION_HOURS).toInstant(ZoneOffset.UTC);
+    }
+
+    private Algorithm getAlgorithm() {
+        return Algorithm.HMAC256(secret);
+    }
+
+    private void validarUsuario(Auth usuario) {
+        if (usuario == null || usuario.getUsername() == null || usuario.getUsername().isBlank()) {
+            throw new IllegalArgumentException("Usuário ou username inválido.");
+        }
+    }
+
+    private void validarToken(String tokenJWT) {
+        if (tokenJWT == null || tokenJWT.isBlank()) {
+            throw new IllegalArgumentException("Token inválido ou ausente.");
+        }
     }
 
     public static class TokenCreationException extends RuntimeException {
