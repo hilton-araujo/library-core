@@ -76,11 +76,17 @@ public class EmployeeService {
 
         for (Employee employee : employees){
             EmployeeResponseDTO employeeResponseDTO = new EmployeeResponseDTO(
-                    employee.getId(),
                     employee.getCode(),
                     employee.getName(),
+                    employee.getSurname(),
+                    employee.getGenre(),
+                    employee.getMsidn(),
+                    employee.getNuit(),
+                    employee.getDocumentType(),
+                    employee.getDocumentNumber(),
                     employee.getEmail(),
-                    employee.getPosition()
+                    employee.getPosition(),
+                    employee.getActive()
             );
             dto.add(employeeResponseDTO);
         }

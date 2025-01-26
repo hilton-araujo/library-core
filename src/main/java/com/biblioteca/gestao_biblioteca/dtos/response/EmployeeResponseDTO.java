@@ -1,15 +1,29 @@
 package com.biblioteca.gestao_biblioteca.dtos.response;
 
-public record EmployeeResponseDTO(
+import com.biblioteca.gestao_biblioteca.enums.DocumentType;
 
-        String id,
+public record EmployeeResponseDTO(
 
         String code,
 
         String name,
 
+        String surname,
+
+        String genre,
+
+        String msidn,
+
+        String nuit,
+
+        DocumentType documentType,
+
+        String documentNumber,
+
         String email,
 
-        String position
+        String position,
+
+        Boolean active
 ) {
 }

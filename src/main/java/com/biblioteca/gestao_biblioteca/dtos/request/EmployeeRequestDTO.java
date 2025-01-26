@@ -1,10 +1,7 @@
 package com.biblioteca.gestao_biblioteca.dtos.request;
 
 import com.biblioteca.gestao_biblioteca.enums.DocumentType;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public record EmployeeRequestDTO(
         @NotBlank(message = "O nome é obrigatório")
@@ -18,7 +15,7 @@ public record EmployeeRequestDTO(
         @NotBlank(message = "O estado civil é obrigatório")
         String maritalStatus,
 
-        @NotBlank(message = "O tipo de documento é obrigatório")
+        @NotNull(message = "O tipo de documento é obrigatório")
         DocumentType documentType,
 
         @NotBlank(message = "O número do documento é obrigatório")
@@ -33,7 +30,7 @@ public record EmployeeRequestDTO(
         String genre,
 
         @NotBlank(message = "O número MSIDN é obrigatório")
-        @Pattern(regexp = "\\+258\\d{9}", message = "O MSIDN deve seguir o formato +258XXXXXXXXX")
+        @Pattern(regexp = "\\d{9}", message = "O MSIDN deve conter exatamente 9 dígitos")
         String msidn,
 
         @NotBlank(message = "O e-mail é obrigatório")
