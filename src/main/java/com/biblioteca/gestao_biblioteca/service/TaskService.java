@@ -73,11 +73,17 @@ public class TaskService {
         for (Task task : tasks){
             List<EmployeeResponseDTO> employees = task.getEmployee().stream()
                     .map(employee -> new EmployeeResponseDTO(
-                            employee.getId(),
                             employee.getCode(),
                             employee.getName(),
+                            employee.getSurname(),
+                            employee.getGenre(),
+                            employee.getMsidn(),
+                            employee.getNuit(),
+                            employee.getDocumentType(),
+                            employee.getDocumentNumber(),
                             employee.getEmail(),
-                            employee.getPosition()
+                            employee.getPosition(),
+                            employee.getActive()
                     ))
                     .toList();
 
