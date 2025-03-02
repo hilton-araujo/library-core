@@ -1,6 +1,6 @@
 package com.biblioteca.gestao_biblioteca.models;
 
-import com.biblioteca.gestao_biblioteca.enums.Papel;
+import com.biblioteca.gestao_biblioteca.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,9 +33,9 @@ public class Auth implements UserDetails {
     @JoinColumn(name = "updated_by")
     private String updatedBy;
 
-    private Papel role;
+    private Role role;
 
-    public Auth(String login, String encriptedPassword, Papel roles) {
+    public Auth(String login, String encriptedPassword, Role roles) {
         this.username = login;
         this.password = encriptedPassword;
         this.role = roles;
@@ -43,7 +43,7 @@ public class Auth implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == Papel.ADMIN) {
+        if (this.role == Role.ADMIN) {
             return List.of(
                     new SimpleGrantedAuthority("ROLE_ADMIN"),
                     new SimpleGrantedAuthority("ROLE_USER")

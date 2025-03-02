@@ -76,6 +76,7 @@ public class CategoryService {
         for (Category category : categories) {
             GeneroDTO dto = new GeneroDTO(
                     category.getCode(),
+                    category.getActive(),
                     category.getCategory()
             );
             dtos.add(dto);
@@ -89,6 +90,7 @@ public class CategoryService {
 
         return new CategoryDetailsDTO(
                 category.getCode(),
+                category.getActive(),
                 category.getCategory()
         );
     }

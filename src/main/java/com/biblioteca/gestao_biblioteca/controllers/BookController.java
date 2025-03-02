@@ -37,7 +37,7 @@ public class BookController {
             service.registrarBook(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseApi("Livro cadastrado com sucesso!", null));
         } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(new ResponseApi("Erro: " + e.getReason(), null));
+            return ResponseEntity.status(e.getStatusCode()).body(new ResponseApi(e.getReason(), null));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseApi("Ocorreu um erro ao cadastrar o livro. Tente novamente.", null));
         }

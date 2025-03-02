@@ -22,6 +22,8 @@ public class Category {
 
     private String code;
 
+    private Boolean active = true;
+
     private String category;
 
     public Category(CreateCategoryDTO dto) {

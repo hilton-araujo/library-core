@@ -4,6 +4,8 @@ public record GeneroDTO(
 
         String code,
 
+        Boolean active,
+
         String category
 ) {
 }

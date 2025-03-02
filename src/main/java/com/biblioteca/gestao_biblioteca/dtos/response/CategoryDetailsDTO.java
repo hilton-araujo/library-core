@@ -4,6 +4,8 @@ public record CategoryDetailsDTO(
 
         String code,
 
+        Boolean active,
+
         String category
 ) {
 }

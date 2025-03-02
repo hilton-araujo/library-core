@@ -3,7 +3,7 @@ package com.biblioteca.gestao_biblioteca.service;
 import com.biblioteca.gestao_biblioteca.dtos.request.AtualizarClienteDTO;
 import com.biblioteca.gestao_biblioteca.dtos.request.ClientCreateRequest;
 import com.biblioteca.gestao_biblioteca.dtos.response.*;
-import com.biblioteca.gestao_biblioteca.enums.Papel;
+import com.biblioteca.gestao_biblioteca.enums.Role;
 import com.biblioteca.gestao_biblioteca.functions.GeneratorCode;
 import com.biblioteca.gestao_biblioteca.infrastructure.exceptions.ContentAlreadyExistsException;
 import com.biblioteca.gestao_biblioteca.infrastructure.exceptions.NotFoundException;
@@ -61,7 +61,7 @@ public class ClientService {
             verificarConflitos(dto.email(), dto.nuit());
 
             String encryptedPassword = passwordEncoder.encode(dto.senha());
-            Auth auth = new Auth(dto.email(), encryptedPassword, Papel.CLIENTE);
+            Auth auth = new Auth(dto.email(), encryptedPassword, Role.CLIENTE);
 
             cliente = new Client();
             cliente.setCode(GeneratorCode.generateCode());

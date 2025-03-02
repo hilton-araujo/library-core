@@ -45,6 +45,7 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/webjars/**"
                         ).permitAll()
+                        .requestMatchers("/api/enums/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
                         .anyRequest().authenticated()
                 )

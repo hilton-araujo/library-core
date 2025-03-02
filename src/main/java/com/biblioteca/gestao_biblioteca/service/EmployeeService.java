@@ -2,7 +2,7 @@ package com.biblioteca.gestao_biblioteca.service;
 
 import com.biblioteca.gestao_biblioteca.dtos.request.EmployeeRequestDTO;
 import com.biblioteca.gestao_biblioteca.dtos.response.EmployeeResponseDTO;
-import com.biblioteca.gestao_biblioteca.enums.Papel;
+import com.biblioteca.gestao_biblioteca.enums.Role;
 import com.biblioteca.gestao_biblioteca.functions.GeneratorCode;
 import com.biblioteca.gestao_biblioteca.models.Auth;
 import com.biblioteca.gestao_biblioteca.models.Employee;
@@ -43,7 +43,7 @@ public class EmployeeService {
             }
 
             String encryptedPassword = passwordEncoder.encode(dto.senha());
-            Auth auth = new Auth(dto.email(), encryptedPassword, Papel.FUNCIONARIO);
+            Auth auth = new Auth(dto.email(), encryptedPassword, Role.FUNCIONARIO);
 
             employee = new Employee();
             employee.setCode(GeneratorCode.generateCode());

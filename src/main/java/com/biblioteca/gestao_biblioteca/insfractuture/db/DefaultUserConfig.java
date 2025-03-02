@@ -1,6 +1,6 @@
 package com.biblioteca.gestao_biblioteca.insfractuture.db;
 
-import com.biblioteca.gestao_biblioteca.enums.Papel;
+import com.biblioteca.gestao_biblioteca.enums.Role;
 import com.biblioteca.gestao_biblioteca.models.Auth;
 import com.biblioteca.gestao_biblioteca.repository.AuthRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -20,7 +20,7 @@ public class DefaultUserConfig {
                 user.setUsername("admin@gmail.com");
                 String encriptedPassword = new BCryptPasswordEncoder().encode("netline");
                 user.setPassword(encriptedPassword);
-                user.setRole(Papel.ADMIN);
+                user.setRole(Role.ADMIN);
                 userRepository.save(user);
             }
         };

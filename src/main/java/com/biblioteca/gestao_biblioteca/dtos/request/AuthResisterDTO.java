@@ -1,6 +1,6 @@
 package com.biblioteca.gestao_biblioteca.dtos.request;
 
-import com.biblioteca.gestao_biblioteca.enums.Papel;
+import com.biblioteca.gestao_biblioteca.enums.Role;
 import jakarta.validation.constraints.NotEmpty;
 
 
@@ -13,7 +13,7 @@ public record AuthResisterDTO(
         String password,
 
         @NotEmpty(message = "O papel (role) é obrigatório.")
-        Papel roles
+        Role roles
 
 ) {
 }
