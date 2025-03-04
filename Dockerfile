@@ -1,8 +1,12 @@
-FROM maven:3-eclipse-temurin-17 As build
-COPY . .
-RUN mvn clean package
+FROM eclipse-temurin:17-jdk-jammy
 
-FROM eclipse-temurin:17-alpine
-COPY --from=build /target/*.jar demo.jar
+WORKDIR /app/
+
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN chmod +x mvnw
+RUN ./mvnw dependency:resolve
+COPY src ./src
+
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "demo.jar"]
+CMD ["./mvnw", "spring-boot:run"]
