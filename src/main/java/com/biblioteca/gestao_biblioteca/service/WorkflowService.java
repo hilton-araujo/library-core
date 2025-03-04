@@ -3,7 +3,7 @@ package com.biblioteca.gestao_biblioteca.service;
 
 import com.biblioteca.gestao_biblioteca.dtos.request.WorkflowRequestDTO;
 import com.biblioteca.gestao_biblioteca.dtos.response.WorkflowResponseDTO;
-import com.biblioteca.gestao_biblioteca.functions.GeneratorCode;
+import com.biblioteca.gestao_biblioteca.utils.GeneratorCode;
 import com.biblioteca.gestao_biblioteca.models.OrderType;
 import com.biblioteca.gestao_biblioteca.models.Workflow;
 import com.biblioteca.gestao_biblioteca.repository.OrderTypeRepository;

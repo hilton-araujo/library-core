@@ -4,7 +4,7 @@ import com.biblioteca.gestao_biblioteca.dtos.request.AtualizarClienteDTO;
 import com.biblioteca.gestao_biblioteca.dtos.request.ClientCreateRequest;
 import com.biblioteca.gestao_biblioteca.dtos.response.*;
 import com.biblioteca.gestao_biblioteca.enums.Role;
-import com.biblioteca.gestao_biblioteca.functions.GeneratorCode;
+import com.biblioteca.gestao_biblioteca.utils.GeneratorCode;
 import com.biblioteca.gestao_biblioteca.infrastructure.exceptions.ContentAlreadyExistsException;
 import com.biblioteca.gestao_biblioteca.infrastructure.exceptions.NotFoundException;
 import com.biblioteca.gestao_biblioteca.models.Auth;

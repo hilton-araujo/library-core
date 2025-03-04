@@ -10,10 +10,6 @@ import java.util.List;
 
 @Entity(name = "Task")
 @Table(name = "task")
-@Setter
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
 public class Task {
 
     @Id
@@ -39,4 +35,62 @@ public class Task {
 
     @Column(nullable = false)
     private Boolean concluida = false;
+
+    public Task() {}
+
+    public Task(String code, String designation, Stage stage, List<Employee> employee, Boolean concluida) {
+        this.code = code;
+        this.designation = designation;
+        this.stage = stage;
+        this.employee = employee;
+        this.concluida = concluida;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    public List<Employee> getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(List<Employee> employee) {
+        this.employee = employee;
+    }
+
+    public Boolean getConcluida() {
+        return concluida;
+    }
+
+    public void setConcluida(Boolean concluida) {
+        this.concluida = concluida;
+    }
 }

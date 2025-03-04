@@ -1,17 +1,9 @@
 package com.biblioteca.gestao_biblioteca.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity(name = "Favority")
 @Table(name = "favority")
-@Setter
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
 public class Favorites {
 
     @Id
@@ -23,4 +15,37 @@ public class Favorites {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
+
+    public Favorites() {
+    }
+
+    public Favorites(String id, String code, Book book) {
+        this.id = id;
+        this.code = code;
+        this.book = book;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
 }

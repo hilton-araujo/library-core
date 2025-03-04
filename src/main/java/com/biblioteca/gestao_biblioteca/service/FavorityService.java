@@ -2,7 +2,7 @@ package com.biblioteca.gestao_biblioteca.service;
 
 import com.biblioteca.gestao_biblioteca.dtos.response.ListFavoriteDTO;
 import com.biblioteca.gestao_biblioteca.dtos.request.ValueDTO;
-import com.biblioteca.gestao_biblioteca.functions.GeneratorCode;
+import com.biblioteca.gestao_biblioteca.utils.GeneratorCode;
 import com.biblioteca.gestao_biblioteca.models.Book;
 import com.biblioteca.gestao_biblioteca.models.Favorites;
 import com.biblioteca.gestao_biblioteca.repository.BookRepository;

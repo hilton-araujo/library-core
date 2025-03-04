@@ -3,7 +3,7 @@ package com.biblioteca.gestao_biblioteca.service;
 import com.biblioteca.gestao_biblioteca.dtos.request.EmployeeRequestDTO;
 import com.biblioteca.gestao_biblioteca.dtos.response.EmployeeResponseDTO;
 import com.biblioteca.gestao_biblioteca.enums.Role;
-import com.biblioteca.gestao_biblioteca.functions.GeneratorCode;
+import com.biblioteca.gestao_biblioteca.utils.GeneratorCode;
 import com.biblioteca.gestao_biblioteca.models.Auth;
 import com.biblioteca.gestao_biblioteca.models.Employee;
 import com.biblioteca.gestao_biblioteca.repository.AuthRepository;

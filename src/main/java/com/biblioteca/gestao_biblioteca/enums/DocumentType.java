@@ -1,8 +1,5 @@
 package com.biblioteca.gestao_biblioteca.enums;
 
-import lombok.Getter;
-
-@Getter
 public enum DocumentType {
     BI("Bilhete de Identidade"),
     PASSPORT("Passaporte"),
@@ -18,5 +15,9 @@ public enum DocumentType {
 
     DocumentType(String value) {
         this.value = value;
+    }
+
+    public String getValue() {
+        return value;
     }
 }

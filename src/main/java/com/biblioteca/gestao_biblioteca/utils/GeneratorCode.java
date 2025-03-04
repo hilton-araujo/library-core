@@ -1,4 +1,4 @@
-package com.biblioteca.gestao_biblioteca.functions;
+package com.biblioteca.gestao_biblioteca.utils;
 
 import java.util.Random;
 

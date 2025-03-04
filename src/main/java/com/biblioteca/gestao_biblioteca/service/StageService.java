@@ -2,7 +2,7 @@ package com.biblioteca.gestao_biblioteca.service;
 
 import com.biblioteca.gestao_biblioteca.dtos.request.StageRequestDTO;
 import com.biblioteca.gestao_biblioteca.dtos.response.StageResponseDTO;
-import com.biblioteca.gestao_biblioteca.functions.GeneratorCode;
+import com.biblioteca.gestao_biblioteca.utils.GeneratorCode;
 import com.biblioteca.gestao_biblioteca.models.Stage;
 import com.biblioteca.gestao_biblioteca.models.Workflow;
 import com.biblioteca.gestao_biblioteca.repository.StageRepository;

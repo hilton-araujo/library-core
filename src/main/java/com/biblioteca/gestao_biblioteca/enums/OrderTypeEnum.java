@@ -2,7 +2,6 @@ package com.biblioteca.gestao_biblioteca.enums;
 
 import lombok.Getter;
 
-@Getter
 public enum OrderTypeEnum {
 
     ALTERACAO("Alteração"),
@@ -26,5 +25,9 @@ public enum OrderTypeEnum {
 
     OrderTypeEnum(String value) {
         this.value = value;
+    }
+
+    public String getValue() {
+        return value;
     }
 }

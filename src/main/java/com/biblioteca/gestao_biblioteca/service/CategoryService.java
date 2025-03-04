@@ -3,7 +3,7 @@ package com.biblioteca.gestao_biblioteca.service;
 import com.biblioteca.gestao_biblioteca.dtos.request.CreateCategoryDTO;
 import com.biblioteca.gestao_biblioteca.dtos.response.CategoryDetailsDTO;
 import com.biblioteca.gestao_biblioteca.dtos.response.GeneroDTO;
-import com.biblioteca.gestao_biblioteca.functions.GeneratorCode;
+import com.biblioteca.gestao_biblioteca.utils.GeneratorCode;
 import com.biblioteca.gestao_biblioteca.models.Category;
 import com.biblioteca.gestao_biblioteca.repository.GeneroRepository;
 import org.springframework.beans.factory.annotation.Autowired;

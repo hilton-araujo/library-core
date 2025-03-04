@@ -2,7 +2,7 @@ package com.biblioteca.gestao_biblioteca.service;
 
 import com.biblioteca.gestao_biblioteca.dtos.request.OrderTypeRequest;
 import com.biblioteca.gestao_biblioteca.dtos.response.OrderTypeResponseDTO;
-import com.biblioteca.gestao_biblioteca.functions.GeneratorCode;
+import com.biblioteca.gestao_biblioteca.utils.GeneratorCode;
 import com.biblioteca.gestao_biblioteca.models.OrderType;
 import com.biblioteca.gestao_biblioteca.repository.OrderTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;

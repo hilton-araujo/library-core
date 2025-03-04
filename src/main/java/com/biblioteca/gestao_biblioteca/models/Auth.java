@@ -14,10 +14,6 @@ import java.util.*;
 
 @Table(name = "users")
 @Entity(name = "Users")
-@Setter
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
 public class Auth implements UserDetails {
 
     @Id
@@ -34,6 +30,9 @@ public class Auth implements UserDetails {
     private String updatedBy;
 
     private Role role;
+
+    public Auth() {
+    }
 
     public Auth(String login, String encriptedPassword, Role roles) {
         this.username = login;
@@ -78,5 +77,50 @@ public class Auth implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

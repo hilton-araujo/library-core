@@ -1,17 +1,9 @@
 package com.biblioteca.gestao_biblioteca.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity(name = "Stage")
 @Table(name = "stage")
-@Setter
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
 public class Stage {
 
     @Id
@@ -30,6 +22,55 @@ public class Stage {
     @JoinColumn(name = "workflow_id", nullable = false)
     private Workflow workflow;
 
+    public Stage() {}
+
+    public Stage(String code, String designation, Integer stageOrder, Workflow workflow) {
+        this.code = code;
+        this.designation = designation;
+        this.stageOrder = stageOrder;
+        this.workflow = workflow;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+
+    public Integer getStageOrder() {
+        return stageOrder;
+    }
+
+    public void setStageOrder(Integer stageOrder) {
+        this.stageOrder = stageOrder;
+    }
+
+    public Workflow getWorkflow() {
+        return workflow;
+    }
+
+    public void setWorkflow(Workflow workflow) {
+        this.workflow = workflow;
+    }
+
     @Override
     public String toString() {
         return "Stage{" +
@@ -38,5 +79,4 @@ public class Stage {
                 ", workflow=" + workflow.getDesignation() +
                 '}';
     }
-
 }
