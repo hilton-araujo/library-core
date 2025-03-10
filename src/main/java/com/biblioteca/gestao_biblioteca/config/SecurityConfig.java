@@ -47,7 +47,7 @@ public class SecurityConfig {
                         ).permitAll()
                         .requestMatchers("/api/enums/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

@@ -2,6 +2,7 @@ package com.biblioteca.gestao_biblioteca.controllers;
 
 import com.biblioteca.gestao_biblioteca.dtos.EnumsRespostas;
 import com.biblioteca.gestao_biblioteca.enums.DocumentType;
+import com.biblioteca.gestao_biblioteca.enums.Gender;
 import com.biblioteca.gestao_biblioteca.enums.OrderTypeEnum;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,19 +19,27 @@ import java.util.stream.Collectors;
 @Tag(name = "Enums API", description = "API para listar valores enum utilizados no sistema.")
 public class EnumController {
 
-    @GetMapping("/order-type")
-    @Operation(summary = "Listar os tipos de pedidos", description = "Retorna uma lista com todos os tipos de pedidos disponíveis no sistema.")
+    @GetMapping("/order-types")
+    @Operation(summary = "Listar os tipos de pedidos", description = "Retorna um enum de tipos de pedido.")
     public List<EnumsRespostas> listarTiposDePedidos() {
         return Arrays.stream(OrderTypeEnum.values())
                 .map(orderType -> new EnumsRespostas(orderType.getValue(), orderType.toString()))
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/document-type")
-    @Operation(summary = "Listar os tipos de documentos", description = "Retorna uma lista com todos os tipos de docuemtos de identificação disponíveis no sistema.")
+    @GetMapping("/document-types")
+    @Operation(summary = "Listar os tipos de documentos", description = "Retorna um enum de tipos de documentos.")
     public List<EnumsRespostas> listarTiposDeDocumento() {
         return Arrays.stream(DocumentType.values())
                 .map(documentType -> new EnumsRespostas(documentType.getValue(), documentType.toString()))
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/genders")
+    @Operation(summary = "Listar os generos", description = "Retorna um enum de generos.")
+    public List<EnumsRespostas> listGenders() {
+        return Arrays.stream(Gender.values())
+                .map(gender -> new EnumsRespostas(gender.getValue(), gender.toString()))
                 .collect(Collectors.toList());
     }
 }
